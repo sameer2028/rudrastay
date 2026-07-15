@@ -20,6 +20,7 @@ export default function AnimatedSection({
   children,
   delay = 0,
   direction = "up",
+  className = "",
   ...props
 }: AnimatedSectionProps) {
   const variants = directionVariants[direction];
@@ -34,6 +35,12 @@ export default function AnimatedSection({
         delay,
         ease: [0.16, 1, 0.3, 1],
       }}
+      style={{ 
+        willChange: "transform, opacity", 
+        backfaceVisibility: "hidden", 
+        WebkitBackfaceVisibility: "hidden" 
+      }}
+      className={`transform-gpu ${className}`}
       {...props}
     >
       {children}
