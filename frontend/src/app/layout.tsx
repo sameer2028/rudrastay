@@ -42,6 +42,11 @@ export const metadata: Metadata = {
     "mountain resort",
     "tour packages Dehradun",
     "budget trips India",
+    "Airbnb near me",
+    "Homestay near me",
+    "Hotel near me",
+    "Rooms near me",
+    "Airbnb",
   ],
   openGraph: {
     title: "Rudra Stay — Luxury Stay & Travel in Dehradun",

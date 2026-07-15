@@ -250,18 +250,7 @@ export default function RoomFormModal({ isOpen, onClose, initialData }: RoomForm
                 />
               </div>
 
-              <div>
-                <label className="block text-xs font-semibold text-warm-brown uppercase tracking-wider mb-2">Capacity (Guests)</label>
-                <input
-                  type="number"
-                  name="capacity"
-                  required
-                  min="1"
-                  value={formData.capacity}
-                  onChange={handleChange}
-                  className="w-full px-4 py-2 bg-sand/30 border border-gold-light/30 rounded-lg text-sm focus:outline-none focus:border-gold transition-colors text-warm-brown"
-                />
-              </div>
+
 
               <div className="col-span-2">
                 <label className="block text-xs font-semibold text-warm-brown uppercase tracking-wider mb-2">Description</label>

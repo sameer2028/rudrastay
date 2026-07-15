@@ -56,8 +56,8 @@ export const useCreateRoom = () => {
       const response = await apiClient.post('/rooms/', data);
       return response.data.data;
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['rooms'] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['rooms'] });
     },
   });
 };
@@ -69,9 +69,9 @@ export const useUpdateRoom = () => {
       const response = await apiClient.put(`/rooms/${id}`, data);
       return response.data.data;
     },
-    onSuccess: (_, variables) => {
-      queryClient.invalidateQueries({ queryKey: ['rooms'] });
-      queryClient.invalidateQueries({ queryKey: ['room'] }); // Invalidate all specific rooms too
+    onSuccess: async (_, variables) => {
+      await queryClient.invalidateQueries({ queryKey: ['rooms'] });
+      await queryClient.invalidateQueries({ queryKey: ['room'] }); // Invalidate all specific rooms too
     },
   });
 };
