@@ -173,6 +173,7 @@ export default function GalleryPage() {
               src={GALLERY_VIDEOS[playingVideo].url}
               controls
               autoPlay
+              muted
               className="w-full h-full object-contain bg-black"
             >
               Your browser does not support the video tag.

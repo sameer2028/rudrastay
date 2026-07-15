@@ -57,7 +57,13 @@ class CloudinaryService:
                 folder=folder,
                 public_id=f"{uuid.uuid4()}",
                 resource_type="video",
+                eager=[{"audio_codec": "none"}]
             )
+            
+            eager_list = response.get("eager", [])
+            if eager_list:
+                return eager_list[0].get("secure_url")
+                
             return response.get("secure_url")
         except Exception as e:
             raise HTTPException(
