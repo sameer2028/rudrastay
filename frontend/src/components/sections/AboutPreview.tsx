@@ -45,7 +45,7 @@ export default function AboutPreview() {
                 <img
                   src="/images/gallery/gallery-29.jpeg"
                   alt="Rudra Stay property view"
-                  className="w-full h-[500px] object-cover"
+                  className="w-full h-auto max-h-[500px] object-contain"
                 />
               </div>
               {/* Floating Card */}
