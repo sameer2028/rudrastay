@@ -9,16 +9,8 @@ import { useGallery } from "@/hooks/useGallery";
 export default function GalleryPreview() {
   const { data: galleryItems } = useGallery();
   const GALLERY_PHOTOS = galleryItems?.filter(item => item.type === "photo") || [];
-  const displayPhotos = GALLERY_PHOTOS.slice(0, 5);
+  const displayPhotos = GALLERY_PHOTOS.slice(0, 4);
   
-  const SPANS = [
-    "col-span-2 row-span-2",
-    "",
-    "",
-    "col-span-2",
-    ""
-  ];
-
   if (!galleryItems || displayPhotos.length === 0) {
     return null; // Do not render if no photos
   }
@@ -38,11 +30,10 @@ export default function GalleryPreview() {
             <AnimatedSection
               key={index}
               delay={index * 0.1}
-              className={SPANS[index] || ""}
             >
               <motion.div
                 whileHover={{ scale: 0.98 }}
-                className="relative rounded-lg overflow-hidden cursor-pointer group h-full min-h-[180px]"
+                className="relative rounded-lg overflow-hidden cursor-pointer group aspect-square"
               >
                 <img
                   src={item.url}

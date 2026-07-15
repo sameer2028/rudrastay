@@ -35,9 +35,10 @@ const VALUES = [
 
 const ATTRACTIONS = [
   { icon: Map, name: "Rishikesh", distance: "45 km", desc: "Adventure capital with rafting & yoga" },
+  { icon: Camera, name: "Mussoorie", distance: "34 km", desc: "Queen of the Hills" },
   { icon: Mountain, name: "Kedarnath", distance: "250 km", desc: "Sacred Dehradun pilgrimage" },
   { icon: TreePine, name: "Valley of Flowers", distance: "300 km", desc: "UNESCO World Heritage Site" },
-  { icon: Camera, name: "Mussoorie", distance: "34 km", desc: "Queen of the Hills" },
+  
 ];
 
 export default function AboutPage() {
