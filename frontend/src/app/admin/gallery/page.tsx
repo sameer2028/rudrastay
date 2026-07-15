@@ -10,6 +10,7 @@ export default function AdminGalleryPage() {
   const queryClient = useQueryClient();
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [editingMedia, setEditingMedia] = useState<any>(null);
+  const [batchProgress, setBatchProgress] = useState<{current: number, total: number} | null>(null);
   const [newMedia, setNewMedia] = useState({
     type: "photo",
     url: "",
@@ -23,9 +24,35 @@ export default function AdminGalleryPage() {
   });
 
   const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      const uploadType = newMedia.type === 'photo' ? 'image' : 'video';
-      await uploadMedia(e.target.files[0], uploadType);
+    if (e.target.files && e.target.files.length > 0) {
+      const files = Array.from(e.target.files);
+      setBatchProgress({ current: 0, total: files.length });
+
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        setBatchProgress({ current: i + 1, total: files.length });
+        
+        const isVideo = file.type.startsWith('video/');
+        const uploadType = isVideo ? 'video' : 'image';
+        const mediaType = isVideo ? 'video' : 'photo';
+        
+        try {
+          const url = await uploadMedia(file, uploadType);
+          await apiClient.post('/gallery/', {
+            type: mediaType,
+            url,
+            caption: file.name,
+            sort_order: 0
+          });
+        } catch (err) {
+          console.error(`Failed to upload ${file.name}`, err);
+        }
+      }
+      
+      queryClient.invalidateQueries({ queryKey: ['admin-gallery'] });
+      setBatchProgress(null);
+      setIsAddModalOpen(false);
+      setNewMedia({ type: "photo", url: "", caption: "", sort_order: 0 });
     }
   };
 
@@ -127,9 +154,15 @@ export default function AdminGalleryPage() {
                 {item.type === 'photo' ? (
                   <img src={item.url} alt={item.caption || "Gallery image"} className="w-full h-full object-cover" />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center bg-sand-dark text-brown-muted">
-                    <Video className="w-8 h-8" />
-                  </div>
+                  <video 
+                    src={item.url} 
+                    className="w-full h-full object-cover" 
+                    muted 
+                    playsInline 
+                    loop 
+                    onMouseOver={(e) => (e.target as HTMLVideoElement).play()}
+                    onMouseOut={(e) => (e.target as HTMLVideoElement).pause()}
+                  />
                 )}
                 <div className="absolute top-2 right-2 bg-white/90 backdrop-blur rounded p-1 shadow-sm flex gap-2">
                   <button 
@@ -209,14 +242,17 @@ export default function AdminGalleryPage() {
                   <div className="relative">
                     <input 
                       type="file" 
+                      multiple
                       className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                       onChange={handleFileSelect}
-                      accept={newMedia.type === 'photo' ? "image/*" : "video/*"}
-                      disabled={isUploading}
+                      accept="image/*,video/*"
+                      disabled={isUploading || batchProgress !== null}
                     />
-                    <button type="button" className="h-full px-4 bg-sand/50 text-warm-brown hover:bg-sand rounded-lg border border-gold-light/30 flex items-center gap-2 transition-colors">
-                      {isUploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <UploadCloud className="w-4 h-4" />}
-                      <span className="text-sm font-medium">{isUploading ? `Uploading ${progress}%` : 'Upload File'}</span>
+                    <button type="button" className="h-full px-4 bg-sand/50 text-warm-brown hover:bg-sand rounded-lg border border-gold-light/30 flex items-center gap-2 transition-colors whitespace-nowrap">
+                      {isUploading || batchProgress !== null ? <Loader2 className="w-4 h-4 animate-spin" /> : <UploadCloud className="w-4 h-4" />}
+                      <span className="text-sm font-medium">
+                        {batchProgress ? `Uploading ${batchProgress.current}/${batchProgress.total} (${progress}%)` : 'Upload File(s)'}
+                      </span>
                     </button>
                   </div>
                 </div>

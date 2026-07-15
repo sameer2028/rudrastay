@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import { useAuth } from "@/contexts/AuthContext";
-import { Loader2, LayoutDashboard, CalendarCheck, CalendarDays, DoorOpen, Package, Star, Image, Map, Mail, LogOut, ArrowLeft } from "lucide-react";
+import { Loader2, LayoutDashboard, CalendarCheck, CalendarDays, DoorOpen, Package, Star, Image, Map, Mail, LogOut, ArrowLeft, Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const ADMIN_NAV = [
@@ -27,6 +27,7 @@ export default function AdminLayout({
   const { admin, isLoading, logout } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const isLoginPage = pathname === "/admin/login";
 
@@ -35,6 +36,11 @@ export default function AdminLayout({
       router.push("/admin/login");
     }
   }, [admin, isLoading, isLoginPage, router]);
+
+  // Close mobile menu on route change
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [pathname]);
 
   // If loading auth state, show spinner
   if (isLoading) {
@@ -57,12 +63,26 @@ export default function AdminLayout({
 
   return (
     <div className="flex min-h-screen bg-sand/30">
+      {/* Mobile Backdrop */}
+      {isMobileMenuOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 z-40 lg:hidden" 
+          onClick={() => setIsMobileMenuOpen(false)} 
+        />
+      )}
+
       {/* Sidebar */}
-      <aside className="w-64 bg-charcoal text-white flex flex-col fixed inset-y-0 left-0 z-40">
-        <div className="h-20 flex items-center px-6 border-b border-white/10">
+      <aside className={cn(
+        "w-64 bg-charcoal text-white flex flex-col fixed inset-y-0 left-0 z-50 transition-transform duration-300 lg:translate-x-0",
+        isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
+      )}>
+        <div className="h-20 flex items-center justify-between px-6 border-b border-white/10 shrink-0">
           <Link href="/admin" className="font-display text-xl font-bold tracking-wider">
             Rudra Admin
           </Link>
+          <button className="lg:hidden text-white/70 hover:text-white" onClick={() => setIsMobileMenuOpen(false)}>
+            <X className="w-6 h-6" />
+          </button>
         </div>
         
         <div className="flex-1 overflow-y-auto py-6">
@@ -89,7 +109,7 @@ export default function AdminLayout({
           </nav>
         </div>
 
-        <div className="p-4 border-t border-white/10 space-y-2">
+        <div className="p-4 border-t border-white/10 space-y-2 shrink-0">
           <Link 
             href="/"
             className="flex items-center gap-3 px-4 py-3 rounded-lg text-sm text-white/60 hover:text-white hover:bg-white/5 transition-colors"
@@ -111,13 +131,16 @@ export default function AdminLayout({
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 ml-64 min-h-screen">
-        <div className="h-20 bg-white/50 backdrop-blur-sm border-b border-gold-light/20 flex items-center px-8 sticky top-0 z-30">
-          <p className="text-sm font-medium text-warm-brown">
+      <main className="flex-1 lg:ml-64 min-h-screen flex flex-col min-w-0">
+        <div className="h-20 bg-white/50 backdrop-blur-sm border-b border-gold-light/20 flex items-center px-4 lg:px-8 sticky top-0 z-30 gap-4">
+          <button className="lg:hidden text-warm-brown hover:text-gold transition-colors" onClick={() => setIsMobileMenuOpen(true)}>
+            <Menu className="w-6 h-6" />
+          </button>
+          <p className="text-sm font-medium text-warm-brown truncate">
             Welcome back, <span className="font-bold text-gold">{admin.name}</span>
           </p>
         </div>
-        <div className="p-8">
+        <div className="p-4 lg:p-8 flex-1 overflow-x-hidden">
           {children}
         </div>
       </main>
