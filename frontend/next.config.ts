@@ -9,6 +9,14 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async rewrites() {
+    return [
+      {
+        source: '/api/proxy/:path*',
+        destination: 'https://rudrastay-production.up.railway.app/api/v1/:path*', 
+      },
+    ];
+  },
 };
 
 export default nextConfig;
