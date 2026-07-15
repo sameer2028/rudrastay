@@ -1,11 +1,19 @@
 from pydantic_settings import BaseSettings
 from typing import List
+from pydantic import field_validator
 
 
 class Settings(BaseSettings):
     # Database
     DATABASE_URL: str = "sqlite+aiosqlite:///./rudrastay.db"
     DATABASE_URL_SYNC: str = "sqlite:///./rudrastay.db"
+
+    @field_validator("DATABASE_URL")
+    @classmethod
+    def fix_postgres_url(cls, v: str) -> str:
+        if v and v.startswith("postgresql://"):
+            return v.replace("postgresql://", "postgresql+asyncpg://", 1)
+        return v
 
     # JWT
     JWT_SECRET_KEY: str = "your-super-secret-key-change-in-production"
