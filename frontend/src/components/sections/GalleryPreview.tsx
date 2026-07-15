@@ -4,17 +4,15 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import SectionHeading from "@/components/shared/SectionHeading";
 import AnimatedSection from "@/components/shared/AnimatedSection";
-import { useGallery } from "@/hooks/useGallery";
+
+const GLIMPSE_PHOTOS = [
+  { url: "/glimpse/20260702_200924.jpg.jpeg", caption: "Luxury Exterior" },
+  { url: "/glimpse/3858.jpeg", caption: "Cozy Interiors" },
+  { url: "/glimpse/WA_1781112829877.jpeg", caption: "Premium Views" },
+  { url: "/glimpse/WA_1781112940256.jpeg", caption: "World-Class Amenities" },
+];
 
 export default function GalleryPreview() {
-  const { data: galleryItems } = useGallery();
-  const GALLERY_PHOTOS = galleryItems?.filter(item => item.type === "photo") || [];
-  const displayPhotos = GALLERY_PHOTOS.slice(0, 4);
-  
-  if (!galleryItems || displayPhotos.length === 0) {
-    return null; // Do not render if no photos
-  }
-
   return (
     <section className="section-padding bg-charcoal">
       <div className="container-luxury">
@@ -26,7 +24,7 @@ export default function GalleryPreview() {
         />
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
-          {displayPhotos.map((item, index) => (
+          {GLIMPSE_PHOTOS.map((item, index) => (
             <AnimatedSection
               key={index}
               delay={index * 0.1}
@@ -37,7 +35,7 @@ export default function GalleryPreview() {
               >
                 <img
                   src={item.url}
-                  alt={item.caption || ""}
+                  alt={item.caption}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-charcoal/0 group-hover:bg-charcoal/40 transition-all duration-300 flex items-end">

@@ -74,7 +74,7 @@ export default function AboutPage() {
                 <img
                   src="/images/gallery/gallery-29.jpeg"
                   alt="Rudra Stay Property"
-                  className="w-full h-[500px] object-cover"
+                  className="w-full h-auto max-h-[500] object-cover"
                 />
               </div>
             </AnimatedSection>
