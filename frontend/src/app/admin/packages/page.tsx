@@ -79,7 +79,7 @@ export default function AdminPackagesPage() {
                       <div className="text-xs text-brown-muted">Slug: {pkg.slug}</div>
                     </td>
                     <td className="px-6 py-4 text-warm-brown">
-                      {pkg.duration_days} Days / {pkg.duration_nights} Nights
+                      {pkg.duration_days} Days / {Math.max(1, pkg.duration_days - 1)} Nights
                     </td>
                     <td className="px-6 py-4 font-price font-medium text-warm-brown">
                       {formatPrice(pkg.price)}
