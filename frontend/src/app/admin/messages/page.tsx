@@ -18,9 +18,7 @@ export default function AdminMessagesPage() {
 
   const toggleResolvedMutation = useMutation({
     mutationFn: async ({ id, is_resolved }: { id: string; is_resolved: boolean }) => {
-      // Assuming patch for contact messages. Let's send a full PUT if patch is not supported by standard CRUD template. 
-      // I will send a PUT with all fields if PATCH fails, but standard FastAPI routes often have partial update or full update.
-      const response = await apiClient.patch(`/contact/${id}`, { is_resolved });
+      const response = await apiClient.patch(`/contact/${id}/resolve`);
       return response.data;
     },
     onSuccess: () => {

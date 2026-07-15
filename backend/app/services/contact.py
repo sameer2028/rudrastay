@@ -14,14 +14,14 @@ class ContactService:
         return await self.repo.get_all(page=page, page_size=page_size)
 
     async def create(self, data: ContactCreate) -> ContactMessage:
-        msg = ContactMessage(**data.model_dump())
+        msg = ContactMessage(**data.model_dump(exclude={"subject"}))
         return await self.repo.create(msg)
 
     async def mark_resolved(self, id: str):
         msg = await self.repo.get_by_id(id)
         if not msg:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Message not found")
-        return await self.repo.update(msg, {"is_resolved": True})
+        return await self.repo.update(msg, {"is_resolved": not msg.is_resolved})
 
     async def delete(self, id: str) -> bool:
         return await self.repo.delete(id)

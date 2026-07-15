@@ -113,3 +113,25 @@ class EmailService:
         </div>
         """
         return EmailService._send_email(to=to_email, subject=subject, html_content=html)
+
+    @staticmethod
+    def send_admin_new_message(message_data: dict):
+        """Send notification to admin when a new contact message is received."""
+        subject = f"New Contact Message - {message_data.get('subject', 'General Inquiry')}"
+        
+        html = f"""
+        <div style="font-family: Arial, sans-serif; max-w-md; margin: 0 auto; color: #4a3b32;">
+            <h2 style="color: #b58d3d;">New Contact Form Message</h2>
+            <p>A new message has been submitted on the Rudra Stay website.</p>
+            <div style="background-color: #fcf9f2; padding: 20px; border-radius: 8px; border: 1px solid #eaddba;">
+                <p><strong>Name:</strong> {message_data.get('name')}</p>
+                <p><strong>Email:</strong> {message_data.get('email')}</p>
+                <p><strong>Phone:</strong> {message_data.get('phone') or 'Not provided'}</p>
+                <p><strong>Subject:</strong> {message_data.get('subject')}</p>
+                <p><strong>Message:</strong></p>
+                <p style="white-space: pre-wrap;">{message_data.get('message')}</p>
+            </div>
+            <p style="margin-top: 20px;">Please log in to the admin dashboard or reply directly to the customer's email.</p>
+        </div>
+        """
+        return EmailService._send_email(to=settings.ADMIN_NOTIFICATION_EMAIL, subject=subject, html_content=html)

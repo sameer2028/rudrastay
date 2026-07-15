@@ -5,6 +5,7 @@ import { MapPin, Phone, Mail, MessageCircle, Send, CheckCircle } from "lucide-re
 import SectionHeading from "@/components/shared/SectionHeading";
 import AnimatedSection from "@/components/shared/AnimatedSection";
 import { SITE_CONFIG } from "@/lib/constants";
+import apiClient from "@/lib/api-client";
 
 export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
@@ -15,12 +16,36 @@ export default function ContactPage() {
     message: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Connect to API
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 5000);
-    setFormData({ name: "", phone: "", email: "", message: "" });
+    setIsSubmitting(true);
+    setError("");
+
+    try {
+      await apiClient.post("/contact", {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        subject: "General Inquiry",
+        message: formData.message
+      });
+      setSubmitted(true);
+      setTimeout(() => setSubmitted(false), 5000);
+      setFormData({ name: "", phone: "", email: "", message: "" });
+    } catch (err: any) {
+      console.error("Contact submission error:", err);
+      if (err.response && err.response.data && err.response.data.detail) {
+        console.error("Validation details:", err.response.data.detail);
+        setError("Validation Error: " + JSON.stringify(err.response.data.detail));
+      } else {
+        setError("Failed to send message. Please try again or email us directly.");
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -123,6 +148,12 @@ export default function ContactPage() {
                     </div>
                   )}
 
+                  {error && (
+                    <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+                      <p className="text-sm text-red-600">{error}</p>
+                    </div>
+                  )}
+
                   <form onSubmit={handleSubmit} className="space-y-5">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                       <div>
@@ -181,9 +212,13 @@ export default function ContactPage() {
                       />
                     </div>
 
-                    <button type="submit" className="btn-primary w-full">
-                      <Send className="w-4 h-4" />
-                      Send Message
+                    <button type="submit" disabled={isSubmitting} className="btn-primary w-full flex justify-center items-center gap-2">
+                      {isSubmitting ? (
+                        <div className="w-4 h-4 rounded-full border-2 border-white/30 border-t-white animate-spin"></div>
+                      ) : (
+                        <Send className="w-4 h-4" />
+                      )}
+                      {isSubmitting ? "Sending..." : "Send Message"}
                     </button>
                   </form>
                 </div>

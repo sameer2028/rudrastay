@@ -10,10 +10,16 @@ from app.schemas.contact import ContactCreate, ContactResponse
 router = APIRouter(prefix="/contact", tags=["Contact"])
 
 
+from app.services.email import EmailService
+
 @router.post("", status_code=201)
 async def submit_contact(data: ContactCreate, db: AsyncSession = Depends(get_db)):
     service = ContactService(db)
     msg = await service.create(data)
+    
+    # Forward the message to the admin via email
+    EmailService.send_admin_new_message(data.model_dump())
+    
     return {"success": True, "message": "Message sent successfully", "data": {"id": msg.id}}
 
 
