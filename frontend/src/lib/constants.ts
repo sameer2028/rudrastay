@@ -2,12 +2,12 @@ export const SITE_CONFIG = {
   name: "Rudra Stay",
   tagline: "Luxury Stay & Travel",
   description:
-    "Experience luxury in the heart of Uttarakhand. Premium accommodations, curated tour packages, and unforgettable mountain experiences.",
+    "Experience luxury in the heart of Dehradun. Premium accommodations, curated tour packages, and unforgettable mountain experiences.",
   url: "https://rudrastay.com",
   email: "info@rudrastay.com",
   phone: "+91 98765 43210",
   whatsapp: "+919876543210",
-  address: "Near Badrinath Highway, Uttarakhand, India",
+  address: "Near Badrinath Highway, Dehradun, India",
   mapEmbedUrl:
     "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3442.5!2d79.5!3d30.4!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzDCsDI0JzAwLjAiTiA3OcKwMzAnMDAuMCJF!5e0!3m2!1sen!2sin!4v1",
   social: {

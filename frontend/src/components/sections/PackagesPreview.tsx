@@ -17,7 +17,7 @@ export default function PackagesPreview() {
         <SectionHeading
           subtitle="Curated Experiences"
           title="Tour Packages"
-          description="Hand-picked travel packages that combine the best of Uttarakhand with the comfort and luxury of Rudra Stay."
+          description="Hand-picked travel packages that combine the best of Dehradun with the comfort and luxury of Rudra Stay."
         />
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">

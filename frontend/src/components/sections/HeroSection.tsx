@@ -39,7 +39,7 @@ export default function HeroSection() {
           className="font-display text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-[1.2] sm:leading-[1.1] mb-6 drop-shadow-lg"
         >
           Experience Luxury in the
-          <span className="block text-gold-light mt-2">Heart of Uttarakhand</span>
+          <span className="block text-gold-light mt-2">Heart of Dehradun</span>
         </motion.h1>
 
         <motion.p
@@ -48,7 +48,7 @@ export default function HeroSection() {
           transition={{ duration: 0.8, delay: 0.6 }}
           className="text-white/80 text-sm sm:text-base md:text-lg max-w-2xl mx-auto mb-8 sm:mb-10 leading-relaxed drop-shadow"
         >
-          Nestled amidst the majestic Himalayas, Rudra Stay offers an
+          Nestled amidst the majestic Doon Valley, Rudra Stay offers an
           unparalleled retreat with world-class amenities, breathtaking views,
           and curated experiences.
         </motion.p>

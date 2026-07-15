@@ -11,7 +11,7 @@ const REASONS = [
     icon: Mountain,
     title: "Stunning Location",
     description:
-      "Perched in the heart of Uttarakhand with panoramic Himalayan views that take your breath away every morning.",
+      "Perched in the heart of Dehradun with panoramic Dehradun views that take your breath away every morning.",
   },
   {
     icon: Shield,
@@ -56,7 +56,7 @@ export default function AboutPreview() {
                 transition={{ delay: 0.4, duration: 0.5 }}
                 className="absolute -bottom-6 -right-6 bg-white rounded-lg p-6 shadow-lg max-w-[200px]"
               >
-                <p className="font-price text-3xl font-bold text-gold mb-1">8+</p>
+                <p className="font-price text-3xl font-bold text-gold mb-1">2+</p>
                 <p className="text-sm text-brown-light">
                   Years of Hospitality Excellence
                 </p>
@@ -69,7 +69,7 @@ export default function AboutPreview() {
             <SectionHeading
               subtitle="About Us"
               title="A Sanctuary in the Mountains"
-              description="Rudra Stay is more than a hotel — it's a gateway to the majestic Himalayas. Founded with a vision to offer authentic luxury amidst nature, we create moments that become lifelong memories."
+              description="Rudra Stay is more than a hotel — it's a gateway to the majestic Doon Valley. Founded with a vision to offer authentic luxury amidst nature, we create moments that become lifelong memories."
               align="left"
             />
 

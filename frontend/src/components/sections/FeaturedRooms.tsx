@@ -18,7 +18,7 @@ export default function FeaturedRooms() {
         <SectionHeading
           subtitle="Accommodations"
           title="Our Finest Rooms"
-          description="Each room is thoughtfully designed to blend luxury with the natural beauty of the Himalayas, offering a serene retreat after a day of exploration."
+          description="Each room is thoughtfully designed to blend luxury with the natural beauty of the Doon Valley, offering a serene retreat after a day of exploration."
         />
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

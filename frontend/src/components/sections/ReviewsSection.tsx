@@ -26,7 +26,7 @@ const REVIEWS = [
     location: "Bangalore, India",
     rating: 5,
     content:
-      "The best hotel experience in Uttarakhand. Impeccable rooms, incredible food, and the most helpful staff. The tour packages they offer are well-organized and great value.",
+      "The best hotel experience in Dehradun. Impeccable rooms, incredible food, and the most helpful staff. The tour packages they offer are well-organized and great value.",
   },
 ];
 

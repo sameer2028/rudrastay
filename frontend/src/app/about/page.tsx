@@ -7,7 +7,7 @@ import CTASection from "@/components/sections/CTASection";
 export const metadata: Metadata = {
   title: "About Us",
   description:
-    "Learn about Rudra Stay — our story, vision, and commitment to delivering world-class luxury hospitality in the heart of Uttarakhand.",
+    "Learn about Rudra Stay — our story, vision, and commitment to delivering world-class luxury hospitality in the heart of Dehradun.",
 };
 
 const VALUES = [
@@ -29,15 +29,15 @@ const VALUES = [
   {
     icon: Mountain,
     title: "Authentic Experiences",
-    description: "We connect you with the real Uttarakhand — its culture, cuisine, and awe-inspiring landscapes.",
+    description: "We connect you with the real Dehradun — its culture, cuisine, and awe-inspiring landscapes.",
   },
 ];
 
 const ATTRACTIONS = [
-  { icon: Map, name: "Rishikesh", distance: "25 km", desc: "Adventure capital with rafting & yoga" },
-  { icon: Mountain, name: "Kedarnath", distance: "180 km", desc: "Sacred Himalayan pilgrimage" },
-  { icon: TreePine, name: "Valley of Flowers", distance: "200 km", desc: "UNESCO World Heritage Site" },
-  { icon: Camera, name: "Mussoorie", distance: "80 km", desc: "Queen of the Hills" },
+  { icon: Map, name: "Rishikesh", distance: "45 km", desc: "Adventure capital with rafting & yoga" },
+  { icon: Mountain, name: "Kedarnath", distance: "250 km", desc: "Sacred Dehradun pilgrimage" },
+  { icon: TreePine, name: "Valley of Flowers", distance: "300 km", desc: "UNESCO World Heritage Site" },
+  { icon: Camera, name: "Mussoorie", distance: "34 km", desc: "Queen of the Hills" },
 ];
 
 export default function AboutPage() {
@@ -55,7 +55,7 @@ export default function AboutPage() {
                 Where Luxury Meets the Mountains
               </h1>
               <p className="text-brown-light text-base md:text-lg leading-relaxed">
-                Born from a deep love for the Himalayas and a passion for exceptional hospitality,
+                Born from a deep love for the Doon Valley and a passion for exceptional hospitality,
                 Rudra Stay was created to offer discerning travelers a sanctuary where they can
                 reconnect with nature without compromising on comfort.
               </p>
@@ -71,26 +71,26 @@ export default function AboutPage() {
             <AnimatedSection direction="left">
               <div className="relative rounded-xl overflow-hidden shadow-xl">
                 <img
-                  src="/images/gallery/gallery-2.jpeg"
+                  src="/images/gallery/gallery-29.jpeg"
                   alt="Rudra Stay Property"
-                  className="w-full h-[450px] object-cover"
+                  className="w-full h-[500px] object-cover"
                 />
               </div>
             </AnimatedSection>
 
             <AnimatedSection direction="right">
               <span className="text-gold text-xs font-semibold uppercase tracking-[0.3em] mb-4 block">
-                Since 2016
+                Since 2024
               </span>
               <h2 className="font-display text-3xl md:text-4xl font-bold text-warm-brown mb-6">
                 A Journey of Passion
               </h2>
               <div className="space-y-4 text-brown-light leading-relaxed">
                 <p>
-                  What started as a dream to share the magic of Uttarakhand with the world
+                  What started as a dream to share the magic of Dehradun with the world
                   has grown into one of the region&apos;s most beloved luxury retreats. Rudra Stay
-                  was founded in 2016 by a family of mountain lovers who believed that the
-                  Himalayas deserved a hospitality experience as grand as the peaks themselves.
+                  was founded in 2024 by a family of mountain lovers who believed that the
+                  Doon Valley deserved a hospitality experience as grand as the peaks themselves.
                 </p>
                 <p>
                   Over the years, we have welcomed thousands of guests from across India and
@@ -144,7 +144,7 @@ export default function AboutPage() {
           <SectionHeading
             subtitle="Explore"
             title="Nearby Attractions"
-            description="Rudra Stay is your perfect basecamp for exploring the wonders of Uttarakhand."
+            description="Rudra Stay is your perfect basecamp for exploring the wonders of Dehradun."
           />
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">

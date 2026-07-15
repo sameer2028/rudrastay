@@ -28,24 +28,24 @@ const outfit = Outfit({
 
 export const metadata: Metadata = {
   title: {
-    default: "Rudra Stay — Luxury Stay & Travel in Uttarakhand",
+    default: "Rudra Stay — Luxury Stay & Travel in Dehradun",
     template: "%s | Rudra Stay",
   },
   description:
-    "Experience luxury in the heart of Uttarakhand. Premium accommodations, curated tour packages, and unforgettable mountain experiences at Rudra Stay.",
+    "Experience luxury in the heart of Dehradun. Premium accommodations, curated tour packages, and unforgettable mountain experiences at Rudra Stay.",
   keywords: [
     "Rudra Stay",
-    "luxury hotel Uttarakhand",
+    "luxury hotel Dehradun",
     "hotel booking",
-    "Uttarakhand stays",
+    "Dehradun stays",
     "mountain resort",
-    "tour packages Uttarakhand",
+    "tour packages Dehradun",
     "budget trips India",
   ],
   openGraph: {
-    title: "Rudra Stay — Luxury Stay & Travel in Uttarakhand",
+    title: "Rudra Stay — Luxury Stay & Travel in Dehradun",
     description:
-      "Premium accommodations and curated tour packages in Uttarakhand.",
+      "Premium accommodations and curated tour packages in Dehradun.",
     url: "https://rudrastay.com",
     siteName: "Rudra Stay",
     type: "website",
@@ -55,7 +55,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Rudra Stay — Luxury Stay & Travel",
     description:
-      "Experience luxury in the heart of Uttarakhand.",
+      "Experience luxury in the heart of Dehradun.",
   },
   robots: {
     index: true,

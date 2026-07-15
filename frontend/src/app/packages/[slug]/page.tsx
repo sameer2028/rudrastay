@@ -57,7 +57,7 @@ export default function PackageDetailPage({ params }: { params: Promise<{ slug: 
               </div>
               <div className="flex items-center gap-2">
                 <Mountain className="w-4 h-4 text-gold-light" />
-                <span>Uttarakhand, India</span>
+                <span>Dehradun, India</span>
               </div>
             </div>
           </AnimatedSection>

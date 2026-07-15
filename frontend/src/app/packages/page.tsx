@@ -24,7 +24,7 @@ export default function PackagesPage() {
               Tour Packages
             </h1>
             <p className="text-brown-light max-w-2xl mx-auto">
-              Hand-picked travel packages designed to showcase the best of Uttarakhand with the comfort of Rudra Stay.
+              Hand-picked travel packages designed to showcase the best of Dehradun with the comfort of Rudra Stay.
             </p>
           </AnimatedSection>
         </div>

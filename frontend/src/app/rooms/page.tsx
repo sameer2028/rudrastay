@@ -26,7 +26,7 @@ export default function RoomsPage() {
             </h1>
             <p className="text-brown-light max-w-2xl mx-auto">
               Each room is a sanctuary of comfort, blending contemporary luxury with the
-              timeless beauty of the Himalayas.
+              timeless beauty of the Doon Valley.
             </p>
           </AnimatedSection>
         </div>
