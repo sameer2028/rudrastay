@@ -1,37 +1,37 @@
-import smtplib
-from email.message import EmailMessage
+import resend
 import logging
 from app.core.config import settings
 
 logger = logging.getLogger(__name__)
 
+# Initialize Resend
+if settings.RESEND_API_KEY:
+    resend.api_key = settings.RESEND_API_KEY
+
+SENDER_EMAIL = "Rudra Stay <onboarding@resend.dev>"
+
 class EmailService:
     @staticmethod
     def _send_email(to: str, subject: str, html_content: str):
-        print(f"--- ATTEMPTING TO SEND EMAIL TO {to} ---")
-        if not settings.SMTP_USERNAME or not settings.SMTP_PASSWORD:
-            print(f"WARNING: SMTP credentials not set. Would have sent email to {to}: {subject}")
-            logger.warning(f"SMTP credentials not set. Would have sent email to {to}: {subject}")
+        print(f"--- ATTEMPTING TO SEND EMAIL TO {to} VIA RESEND API ---")
+        if not settings.RESEND_API_KEY:
+            print(f"WARNING: RESEND_API_KEY not set. Would have sent email to {to}: {subject}")
+            logger.warning(f"RESEND_API_KEY not set. Would have sent email to {to}: {subject}")
             return None
             
         try:
-            msg = EmailMessage()
-            msg['Subject'] = subject
-            msg['From'] = f"Rudra Stay <{settings.SMTP_USERNAME}>"
-            msg['To'] = to
-            msg.set_content("Please enable HTML to view this email.")
-            msg.add_alternative(html_content, subtype='html')
-
-            with smtplib.SMTP(settings.SMTP_SERVER, settings.SMTP_PORT) as server:
-                server.starttls()
-                server.login(settings.SMTP_USERNAME, settings.SMTP_PASSWORD)
-                server.send_message(msg)
-                
-            print(f"SUCCESS: Email sent successfully to {to}.")
-            logger.info(f"Email sent successfully to {to}.")
-            return True
+            params = {
+                "from": SENDER_EMAIL,
+                "to": to,
+                "subject": subject,
+                "html": html_content,
+            }
+            response = resend.Emails.send(params)
+            print(f"SUCCESS: Email sent successfully to {to}. Response: {response}")
+            logger.info(f"Email sent successfully to {to}. Response: {response}")
+            return response
         except Exception as e:
-            print(f"ERROR: Failed to send email to {to}. Error: {str(e)}")
+            print(f"ERROR: Failed to send email to {to} via Resend. Error: {str(e)}")
             logger.error(f"Failed to send email to {to}. Error: {str(e)}")
             return None
 
