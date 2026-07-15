@@ -84,7 +84,7 @@ export default function RoomDetailPage({ params }: { params: Promise<{ slug: str
                 </h2>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                   {room.amenities?.map((amenity) => (
-                    <div key={amenity} className="flex items-center gap-3 p-3 rounded-lg bg-beige/50 border border-gold-light/20 hover:border-gold/30 transition-colors">
+                    <div key={amenity} className="flex items-center gap-3 p-3 rounded-lg bg-beige/50 border border-gold-light/20 hover:border-gold/30 transition-colors transform-gpu will-change-transform">
                       <CheckCircle className="w-5 h-5 text-gold shrink-0" />
                       <span className="text-sm font-medium text-warm-brown">{amenity}</span>
                     </div>

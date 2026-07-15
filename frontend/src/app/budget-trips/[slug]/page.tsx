@@ -77,7 +77,7 @@ export default function BudgetTripDetailPage({ params }: { params: Promise<{ slu
                   </h2>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {trip.highlights.map((item: string) => (
-                      <div key={item} className="flex items-start gap-3 p-4 rounded-xl bg-beige border border-gold-light/20">
+                      <div key={item} className="flex items-start gap-3 p-4 rounded-xl bg-beige border border-gold-light/20 transform-gpu will-change-transform">
                         <CheckCircle className="w-5 h-5 text-success shrink-0 mt-0.5" />
                         <span className="text-sm font-medium text-warm-brown">{item}</span>
                       </div>

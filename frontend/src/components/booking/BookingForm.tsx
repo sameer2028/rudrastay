@@ -79,6 +79,7 @@ export default function BookingForm({ itemId, itemName, price, itemType }: Booki
 
     const payload: BookingCreate & { [key: string]: any } = {
       ...formData,
+      num_guests: typeof formData.num_guests === "number" ? formData.num_guests : 1,
       item_name: itemName,
     };
     
