@@ -22,7 +22,8 @@ load_dotenv()
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
 from app.core.config import settings
-config.set_main_option("sqlalchemy.url", settings.DATABASE_URL)
+safe_url = settings.DATABASE_URL.replace("%", "%%")
+config.set_main_option("sqlalchemy.url", safe_url)
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
