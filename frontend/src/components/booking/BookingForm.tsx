@@ -78,6 +78,9 @@ export default function BookingForm({ itemId, itemName, price, originalPrice, it
     if (formData.num_guests === "" || formData.num_guests < 1) {
       return "Number of guests must be at least 1.";
     }
+    if (formData.num_guests > 8) {
+      return "Maximum allowed guests per booking is 8.";
+    }
     return null;
   };
 
@@ -197,6 +200,7 @@ export default function BookingForm({ itemId, itemName, price, originalPrice, it
               type="number"
               name="num_guests"
               min="1"
+              max="8"
               required
               value={formData.num_guests}
               onChange={handleInputChange}
