@@ -16,7 +16,7 @@ export default function AdminGalleryPage() {
     sort_order: 0
   });
 
-  const { uploadMedia, isUploading } = useUpload({
+  const { uploadMedia, isUploading, progress } = useUpload({
     onSuccess: (url) => setNewMedia(prev => ({ ...prev, url })),
     onError: (err) => alert(`Upload failed: ${err}`)
   });
@@ -184,7 +184,7 @@ export default function AdminGalleryPage() {
                     />
                     <button type="button" className="h-full px-4 bg-sand/50 text-warm-brown hover:bg-sand rounded-lg border border-gold-light/30 flex items-center gap-2 transition-colors">
                       {isUploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <UploadCloud className="w-4 h-4" />}
-                      <span className="text-sm font-medium">Upload File</span>
+                      <span className="text-sm font-medium">{isUploading ? `Uploading ${progress}%` : 'Upload File'}</span>
                     </button>
                   </div>
                 </div>

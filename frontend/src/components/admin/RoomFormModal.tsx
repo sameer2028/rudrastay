@@ -27,7 +27,7 @@ export default function RoomFormModal({ isOpen, onClose, initialData }: RoomForm
 
   const createMutation = useCreateRoom();
   const updateMutation = useUpdateRoom();
-  const { uploadMedia, isUploading: isUploadingMedia } = useUpload();
+  const { uploadMedia, isUploading: isUploadingMedia, progress } = useUpload();
 
   const isEditing = !!initialData;
   const isPending = createMutation.isPending || updateMutation.isPending || isUploadingMedia;
@@ -252,7 +252,7 @@ export default function RoomFormModal({ isOpen, onClose, initialData }: RoomForm
                           disabled={isUploadingMedia}
                         />
                         <button type="button" className="h-full px-3 bg-sand/50 text-warm-brown hover:bg-sand rounded-lg border border-gold-light/30 flex items-center justify-center transition-colors" title="Upload Image">
-                          <UploadCloud className="w-4 h-4" />
+                          {isUploadingMedia ? <span className="text-xs font-medium">{progress}%</span> : <UploadCloud className="w-4 h-4" />}
                         </button>
                       </div>
                       <button type="button" onClick={() => removeArrayItem(index, 'images')} className="p-2 text-red-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors">
@@ -292,7 +292,7 @@ export default function RoomFormModal({ isOpen, onClose, initialData }: RoomForm
                           disabled={isUploadingMedia}
                         />
                         <button type="button" className="h-full px-3 bg-sand/50 text-warm-brown hover:bg-sand rounded-lg border border-gold-light/30 flex items-center justify-center transition-colors" title="Upload Video">
-                          <UploadCloud className="w-4 h-4" />
+                          {isUploadingMedia ? <span className="text-xs font-medium">{progress}%</span> : <UploadCloud className="w-4 h-4" />}
                         </button>
                       </div>
                       <button type="button" onClick={() => removeArrayItem(index, 'videos')} className="p-2 text-red-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors">
