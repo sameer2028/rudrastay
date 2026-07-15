@@ -28,14 +28,15 @@ class Settings(BaseSettings):
 
     # Resend
     RESEND_API_KEY: str = ""
+    SENDER_EMAIL: str = "Rudra Stay <info@rudrastays.in>"
 
     # Admin
-    ADMIN_EMAIL: str = "admin@rudrastay.com"
+    ADMIN_EMAIL: str = "admin@rudrastays.in"
     ADMIN_PASSWORD: str = "admin123"
     ADMIN_NOTIFICATION_EMAIL: str = "rudrastayadmin@gmail.com"
 
     # CORS
-    CORS_ORIGINS: str = "http://localhost:3000,https://rudrastay.com"
+    CORS_ORIGINS: str = "http://localhost:3000,https://rudrastays.in"
 
     @property
     def cors_origins_list(self) -> List[str]:

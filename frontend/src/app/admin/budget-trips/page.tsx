@@ -197,7 +197,7 @@ export default function AdminBudgetTripsPage() {
                       </span>
                     </td>
                     <td className="px-6 py-4 text-right font-medium text-warm-brown">
-                      ${Number(trip.price_estimate).toFixed(2)}
+                      ₹{Number(trip.price_estimate).toFixed(2)}
                     </td>
                     <td className="px-6 py-4 text-center">
                       <button 
@@ -236,16 +236,17 @@ export default function AdminBudgetTripsPage() {
 
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm overflow-y-auto">
-          <div className="bg-white rounded-2xl w-full max-w-2xl overflow-hidden shadow-2xl border border-gold-light/20 my-8">
-            <div className="px-6 py-4 border-b border-gold-light/10 bg-sand/30 flex justify-between items-center sticky top-0 z-10">
+          <div className="bg-white rounded-2xl w-full max-w-2xl shadow-2xl border border-gold-light/20 my-8 flex flex-col max-h-[90vh]">
+            <div className="px-6 py-4 border-b border-gold-light/10 bg-sand/30 flex justify-between items-center shrink-0">
               <h3 className="font-display font-semibold text-lg text-warm-brown">
                 {editingId ? "Edit Budget Trip" : "Add New Trip"}
               </h3>
               <button onClick={closeModal} className="text-brown-muted hover:text-warm-brown text-2xl leading-none">&times;</button>
             </div>
             
-            <form onSubmit={handleSubmit} className="p-6 space-y-5">
-              <div className="grid grid-cols-2 gap-4">
+            <div className="flex-1 overflow-y-auto p-6">
+              <form id="budget-trip-form" onSubmit={handleSubmit} className="space-y-5">
+                <div className="grid grid-cols-2 gap-4">
                 <div className="col-span-2 md:col-span-1">
                   <label className="block text-sm font-medium text-warm-brown mb-1">Trip Name</label>
                   <input type="text" className="w-full rounded-lg border-gold-light/30 focus:border-gold focus:ring-gold" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} required />
@@ -262,7 +263,7 @@ export default function AdminBudgetTripsPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-warm-brown mb-1">Price Estimate ($)</label>
+                <label className="block text-sm font-medium text-warm-brown mb-1">Price Estimate (₹)</label>
                 <input type="number" min="0" step="0.01" className="w-full rounded-lg border-gold-light/30 focus:border-gold focus:ring-gold" value={formData.price_estimate} onChange={e => setFormData({...formData, price_estimate: parseFloat(e.target.value) || 0})} required />
               </div>
 
@@ -303,14 +304,15 @@ export default function AdminBudgetTripsPage() {
                 <label htmlFor="is_featured" className="text-sm font-medium text-warm-brown">Feature on homepage</label>
               </div>
 
-              <div className="pt-4 flex gap-3 sticky bottom-0 bg-white border-t border-gold-light/10 mt-6 -mx-6 px-6 py-4">
-                <button type="button" onClick={closeModal} className="flex-1 px-4 py-2 text-sm font-medium text-brown-muted bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors">Cancel</button>
-                <button type="submit" disabled={createMutation.isPending || updateMutation.isPending} className="flex-1 px-4 py-2 text-sm font-medium text-white bg-gold hover:bg-gold-light rounded-lg transition-colors flex justify-center items-center gap-2">
-                  {(createMutation.isPending || updateMutation.isPending) && <Loader2 className="w-4 h-4 animate-spin" />}
-                  {editingId ? "Save Changes" : "Create Trip"}
-                </button>
-              </div>
-            </form>
+              </form>
+            </div>
+            <div className="p-6 border-t border-gold-light/10 bg-white flex gap-3 shrink-0 rounded-b-2xl">
+              <button type="button" onClick={closeModal} className="flex-1 px-4 py-2 text-sm font-medium text-brown-muted bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors">Cancel</button>
+              <button form="budget-trip-form" type="submit" disabled={createMutation.isPending || updateMutation.isPending} className="flex-1 px-4 py-2 text-sm font-medium text-white bg-gold hover:bg-gold-light rounded-lg transition-colors flex justify-center items-center gap-2">
+                {(createMutation.isPending || updateMutation.isPending) && <Loader2 className="w-4 h-4 animate-spin" />}
+                {editingId ? "Save Changes" : "Create Trip"}
+              </button>
+            </div>
           </div>
         </div>
       )}

@@ -8,7 +8,7 @@ logger = logging.getLogger(__name__)
 if settings.RESEND_API_KEY:
     resend.api_key = settings.RESEND_API_KEY
 
-SENDER_EMAIL = "Rudra Stay <onboarding@resend.dev>"
+SENDER_EMAIL = settings.SENDER_EMAIL
 
 class EmailService:
     @staticmethod
