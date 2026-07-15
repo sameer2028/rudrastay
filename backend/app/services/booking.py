@@ -1,4 +1,4 @@
-from fastapi import HTTPException, status
+from fastapi import HTTPException, status, BackgroundTasks
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.booking import Booking
@@ -25,7 +25,7 @@ class BookingService:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Booking not found")
         return booking
 
-    async def create(self, data: BookingCreate) -> Booking:
+    async def create(self, data: BookingCreate, background_tasks: BackgroundTasks = None) -> Booking:
         if data.room_id:
             room = await self.room_repo.get_by_id(data.room_id)
             if not room:
@@ -59,11 +59,14 @@ class BookingService:
         booking_details = data.model_dump()
         booking_details['check_in'] = str(booking_details['check_in'])
         booking_details['check_out'] = str(booking_details['check_out'])
-        EmailService.send_admin_new_booking(booking_details)
+        if background_tasks:
+            background_tasks.add_task(EmailService.send_admin_new_booking, booking_details)
+        else:
+            EmailService.send_admin_new_booking(booking_details)
         
         return created_booking
 
-    async def update_status(self, id: str, data: BookingStatusUpdate) -> Booking:
+    async def update_status(self, id: str, data: BookingStatusUpdate, background_tasks: BackgroundTasks = None) -> Booking:
         booking = await self.get_by_id(id)
         update_data = {"status": data.status}
         if data.status == "cancelled" and data.rejection_reason is not None:
@@ -83,8 +86,14 @@ class BookingService:
         
         if data.status == "confirmed":
             # Just sending generic confirmation without specific room assignment since that's handled on frontend only for now
-            EmailService.send_user_booking_confirmed(booking_details)
+            if background_tasks:
+                background_tasks.add_task(EmailService.send_user_booking_confirmed, booking_details)
+            else:
+                EmailService.send_user_booking_confirmed(booking_details)
         elif data.status == "cancelled":
-            EmailService.send_user_booking_rejected(booking_details, data.rejection_reason)
+            if background_tasks:
+                background_tasks.add_task(EmailService.send_user_booking_rejected, booking_details, data.rejection_reason)
+            else:
+                EmailService.send_user_booking_rejected(booking_details, data.rejection_reason)
             
         return updated_booking

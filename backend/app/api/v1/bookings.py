@@ -1,5 +1,5 @@
 from math import ceil
-from fastapi import APIRouter, Depends, Query
+from fastapi import APIRouter, Depends, Query, BackgroundTasks
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.db.database import get_db
@@ -11,9 +11,9 @@ router = APIRouter(prefix="/bookings", tags=["Bookings"])
 
 
 @router.post("", status_code=201)
-async def create_booking(data: BookingCreate, db: AsyncSession = Depends(get_db)):
+async def create_booking(data: BookingCreate, background_tasks: BackgroundTasks, db: AsyncSession = Depends(get_db)):
     service = BookingService(db)
-    booking = await service.create(data)
+    booking = await service.create(data, background_tasks)
     return {
         "success": True,
         "message": "Booking request submitted successfully",
@@ -63,11 +63,12 @@ async def get_booking(
 async def update_booking_status(
     id: str,
     data: BookingStatusUpdate,
+    background_tasks: BackgroundTasks,
     db: AsyncSession = Depends(get_db),
     admin=Depends(get_current_admin),
 ):
     service = BookingService(db)
-    booking = await service.update_status(id, data)
+    booking = await service.update_status(id, data, background_tasks)
     return {
         "success": True,
         "message": f"Booking status updated to {data.status}",
