@@ -72,5 +72,6 @@ backend/alembic/versions/*.pyc
 
 # Large Media Files
 assets/
-frontend/public/
-
+frontend/public/videos/
+frontend/public/images/gallery/
+frontend/public/images/rooms/
