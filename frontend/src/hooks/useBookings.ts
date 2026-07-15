@@ -2,7 +2,10 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import apiClient from '@/lib/api-client';
 
 export interface BookingCreate {
-  room_id: string;
+  room_id?: string;
+  package_id?: string;
+  budget_trip_id?: string;
+  item_name?: string;
   guest_name: string;
   guest_phone: string;
   guest_email: string;

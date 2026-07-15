@@ -10,6 +10,7 @@ export interface Package {
   duration_days: number;
   images: string[];
   inclusions: string[];
+  pdf_url?: string | null;
   is_featured: boolean;
 }
 
