@@ -26,8 +26,11 @@ class Settings(BaseSettings):
     CLOUDINARY_API_KEY: str = ""
     CLOUDINARY_API_SECRET: str = ""
 
-    # Resend
-    RESEND_API_KEY: str = ""
+    # SMTP (Gmail)
+    SMTP_USERNAME: str = ""
+    SMTP_PASSWORD: str = ""
+    SMTP_SERVER: str = "smtp.gmail.com"
+    SMTP_PORT: int = 587
 
     # Admin
     ADMIN_EMAIL: str = "admin@rudrastay.com"
