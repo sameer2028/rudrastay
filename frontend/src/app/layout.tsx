@@ -27,6 +27,7 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://rudrastays.in"),
   title: {
     default: "Rudra Stay — Luxury Stay & Travel in Dehradun",
     template: "%s | Rudra Stay",
