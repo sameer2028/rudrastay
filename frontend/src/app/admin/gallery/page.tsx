@@ -23,7 +23,8 @@ export default function AdminGalleryPage() {
 
   const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      await uploadMedia(e.target.files[0], newMedia.type as 'image' | 'video');
+      const uploadType = newMedia.type === 'photo' ? 'image' : 'video';
+      await uploadMedia(e.target.files[0], uploadType);
     }
   };
 
