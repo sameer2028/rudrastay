@@ -8,24 +8,10 @@ import CTASection from "@/components/sections/CTASection";
 import { useGallery } from "@/hooks/useGallery";
 import { Loader2 } from "lucide-react";
 
-// We use API for photos now
-
-const GALLERY_VIDEOS = [
-  { src: "/videos/video-1.mp4", caption: "Resort Tour", poster: "/images/gallery/gallery-4.jpeg" },
-  { src: "/videos/video-2.mp4", caption: "Room Walkthrough", poster: "/images/gallery/gallery-34.jpeg" },
-  { src: "/videos/video-3.mp4", caption: "Mountain Views", poster: "/images/gallery/gallery-2.jpeg" },
-  { src: "/videos/video-4.mp4", caption: "Living Space Tour", poster: "/images/gallery/gallery-15.jpeg" },
-  { src: "/videos/video-5.mp4", caption: "Property Highlights", poster: "/images/gallery/gallery-33.jpeg" },
-  { src: "/videos/video-6.mp4", caption: "Sunset Time-lapse", poster: "/images/gallery/gallery-29.jpeg" },
-  { src: "/videos/video-7.mp4", caption: "Nature Surroundings", poster: "/images/gallery/gallery-3.jpeg" },
-  { src: "/videos/video-8.mp4", caption: "Night Ambiance", poster: "/images/gallery/gallery-14.jpeg" },
-  { src: "/videos/video-9.mp4", caption: "Interior Showcase", poster: "/images/gallery/gallery-18.jpeg" },
-  { src: "/videos/video-10.mp4", caption: "Guest Experience", poster: "/images/gallery/gallery-30.jpeg" },
-];
-
 export default function GalleryPage() {
   const { data: galleryItems, isLoading, error } = useGallery();
   const GALLERY_PHOTOS = galleryItems?.filter(item => item.type === "photo") || [];
+  const GALLERY_VIDEOS = galleryItems?.filter(item => item.type === "video") || [];
 
   const [activeTab, setActiveTab] = useState<"photos" | "videos">("photos");
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
@@ -100,11 +86,11 @@ export default function GalleryPage() {
                     onClick={() => setPlayingVideo(index)}
                     className="relative rounded-xl overflow-hidden cursor-pointer group aspect-video shadow-lg hover:shadow-xl transition-shadow duration-300"
                   >
-                    <img
-                      src={video.poster}
-                      alt={video.caption}
-                      loading="lazy"
+                    <video
+                      src={video.url}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      muted
+                      playsInline
                     />
                     <div className="absolute inset-0 bg-charcoal/30 group-hover:bg-charcoal/50 transition-all duration-300 flex items-center justify-center">
                       <div className="w-16 h-16 rounded-full bg-white/20 backdrop-blur-sm border-2 border-white/40 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
@@ -184,7 +170,7 @@ export default function GalleryPage() {
             onClick={(e) => e.stopPropagation()}
           >
             <video
-              src={GALLERY_VIDEOS[playingVideo].src}
+              src={GALLERY_VIDEOS[playingVideo].url}
               controls
               autoPlay
               className="w-full h-full object-contain bg-black"
