@@ -19,7 +19,7 @@ export default function BookingForm({ itemId, itemName, price, itemType }: Booki
     guest_phone: "",
     check_in: "",
     check_out: "",
-    num_guests: 1,
+    num_guests: 1 as number | "",
     special_requests: "",
   });
   const [formError, setFormError] = useState<string | null>(null);
@@ -30,7 +30,7 @@ export default function BookingForm({ itemId, itemName, price, itemType }: Booki
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: name === "num_guests" ? parseInt(value) || 1 : value,
+      [name]: name === "num_guests" ? (value === "" ? "" : parseInt(value)) : value,
     }));
     setFormError(null);
   };
@@ -44,7 +44,7 @@ export default function BookingForm({ itemId, itemName, price, itemType }: Booki
       return nights > 0 ? nights * price : 0;
     } else {
       // For packages and budget trips, price is per guest
-      return formData.num_guests * price;
+      return (formData.num_guests || 0) * price;
     }
   };
 
@@ -63,7 +63,7 @@ export default function BookingForm({ itemId, itemName, price, itemType }: Booki
     if (checkOutDate <= checkInDate) {
       return "Check-out date must be after check-in date.";
     }
-    if (formData.num_guests < 1) {
+    if (formData.num_guests === "" || formData.num_guests < 1) {
       return "Number of guests must be at least 1.";
     }
     return null;
