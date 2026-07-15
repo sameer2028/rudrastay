@@ -3,12 +3,13 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import apiClient from "@/lib/api-client";
-import { Loader2, Plus, Trash2, Image as ImageIcon, Video, UploadCloud } from "lucide-react";
+import { Loader2, Plus, Trash2, Image as ImageIcon, Video, UploadCloud, Edit2 } from "lucide-react";
 import { useUpload } from "@/hooks/useUpload";
 
 export default function AdminGalleryPage() {
   const queryClient = useQueryClient();
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [editingMedia, setEditingMedia] = useState<any>(null);
   const [newMedia, setNewMedia] = useState({
     type: "photo",
     url: "",
@@ -48,6 +49,20 @@ export default function AdminGalleryPage() {
     }
   });
 
+  const updateMutation = useMutation({
+    mutationFn: async (data: { id: string, caption: string, sort_order: number }) => {
+      const response = await apiClient.patch(`/gallery/${data.id}`, {
+        caption: data.caption,
+        sort_order: data.sort_order
+      });
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['admin-gallery'] });
+      setEditingMedia(null);
+    }
+  });
+
   const deleteMutation = useMutation({
     mutationFn: async (id: string) => {
       await apiClient.delete(`/gallery/${id}`);
@@ -60,6 +75,15 @@ export default function AdminGalleryPage() {
   const handleAddSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     createMutation.mutate(newMedia);
+  };
+
+  const handleEditSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    updateMutation.mutate({
+      id: editingMedia.id,
+      caption: editingMedia.caption,
+      sort_order: editingMedia.sort_order
+    });
   };
 
   const handleDelete = (id: string) => {
@@ -109,9 +133,17 @@ export default function AdminGalleryPage() {
                 )}
                 <div className="absolute top-2 right-2 bg-white/90 backdrop-blur rounded p-1 shadow-sm flex gap-2">
                   <button 
+                    onClick={() => setEditingMedia(item)}
+                    className="p-1.5 text-warm-brown hover:bg-sand rounded transition-colors"
+                    title="Edit Caption"
+                  >
+                    <Edit2 className="w-4 h-4" />
+                  </button>
+                  <button 
                     onClick={() => handleDelete(item.id)}
                     disabled={deleteMutation.isPending}
                     className="p-1.5 text-red-500 hover:bg-red-50 rounded transition-colors"
+                    title="Delete Media"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
@@ -225,6 +257,64 @@ export default function AdminGalleryPage() {
                 >
                   {createMutation.isPending && <Loader2 className="w-4 h-4 animate-spin" />}
                   Save Media
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Edit Media Modal */}
+      {editingMedia && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+          <div className="bg-white rounded-2xl w-full max-w-md overflow-hidden shadow-2xl border border-gold-light/20">
+            <div className="px-6 py-4 border-b border-gold-light/10 bg-sand/30 flex justify-between items-center">
+              <h3 className="font-display font-semibold text-lg text-warm-brown">Edit Caption</h3>
+              <button 
+                onClick={() => setEditingMedia(null)}
+                className="text-brown-muted hover:text-warm-brown text-2xl leading-none"
+              >
+                &times;
+              </button>
+            </div>
+            
+            <form onSubmit={handleEditSubmit} className="p-6 space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-warm-brown mb-1">Caption</label>
+                <textarea 
+                  rows={3}
+                  className="w-full rounded-lg border-gold-light/30 focus:border-gold focus:ring-gold"
+                  value={editingMedia.caption || ""}
+                  onChange={e => setEditingMedia({...editingMedia, caption: e.target.value})}
+                  placeholder="Enter a nice caption..."
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-warm-brown mb-1">Sort Order (Optional)</label>
+                <input 
+                  type="number" 
+                  className="w-full rounded-lg border-gold-light/30 focus:border-gold focus:ring-gold"
+                  value={editingMedia.sort_order}
+                  onChange={e => setEditingMedia({...editingMedia, sort_order: parseInt(e.target.value) || 0})}
+                />
+              </div>
+
+              <div className="pt-4 flex gap-3">
+                <button 
+                  type="button"
+                  onClick={() => setEditingMedia(null)}
+                  className="flex-1 px-4 py-2 text-sm font-medium text-brown-muted bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
+                >
+                  Cancel
+                </button>
+                <button 
+                  type="submit"
+                  disabled={updateMutation.isPending}
+                  className="flex-1 px-4 py-2 text-sm font-medium text-white bg-gold hover:bg-gold-light rounded-lg transition-colors flex justify-center items-center gap-2"
+                >
+                  {updateMutation.isPending && <Loader2 className="w-4 h-4 animate-spin" />}
+                  Update
                 </button>
               </div>
             </form>

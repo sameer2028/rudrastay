@@ -9,6 +9,11 @@ class GalleryCreate(BaseModel):
     sort_order: int = 0
 
 
+class GalleryUpdate(BaseModel):
+    caption: Optional[str] = Field(None, max_length=300)
+    sort_order: Optional[int] = None
+
+
 class GalleryResponse(BaseModel):
     id: str
     type: str

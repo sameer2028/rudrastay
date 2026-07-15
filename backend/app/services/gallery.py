@@ -2,7 +2,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.gallery import GalleryItem
 from app.repositories.gallery import GalleryRepository
-from app.schemas.gallery import GalleryCreate
+from app.schemas.gallery import GalleryCreate, GalleryUpdate
+from fastapi import HTTPException
 
 
 class GalleryService:
@@ -23,6 +24,12 @@ class GalleryService:
             sort_order=data.sort_order,
         )
         return await self.repo.create(item)
+
+    async def update(self, id: str, data: GalleryUpdate) -> GalleryItem:
+        item = await self.repo.get_by_id(id)
+        if not item:
+            raise HTTPException(status_code=404, detail="Gallery item not found")
+        return await self.repo.update(item, data.model_dump(exclude_unset=True))
 
     async def delete(self, id: str) -> bool:
         return await self.repo.delete(id)

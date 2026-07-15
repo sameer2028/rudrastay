@@ -4,7 +4,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.db.database import get_db
 from app.core.dependencies import get_current_admin
 from app.services.gallery import GalleryService
-from app.schemas.gallery import GalleryCreate, GalleryResponse
+from app.schemas.gallery import GalleryCreate, GalleryResponse, GalleryUpdate
 
 router = APIRouter(prefix="/gallery", tags=["Gallery"])
 
@@ -34,6 +34,22 @@ async def add_gallery_item(
     return {
         "success": True,
         "message": "Gallery item added",
+        "data": GalleryResponse.model_validate(item),
+    }
+
+
+@router.patch("/{id}")
+async def update_gallery_item(
+    id: str,
+    data: GalleryUpdate,
+    db: AsyncSession = Depends(get_db),
+    admin=Depends(get_current_admin),
+):
+    service = GalleryService(db)
+    item = await service.update(id, data)
+    return {
+        "success": True,
+        "message": "Gallery item updated",
         "data": GalleryResponse.model_validate(item),
     }
 
