@@ -32,7 +32,7 @@ class Settings(BaseSettings):
     # Admin
     ADMIN_EMAIL: str = "admin@rudrastay.com"
     ADMIN_PASSWORD: str = "admin123"
-    ADMIN_NOTIFICATION_EMAIL: str = "bookings@rudrastay.com"
+    ADMIN_NOTIFICATION_EMAIL: str = "rudrastayadmin@gmail.com"
 
     # CORS
     CORS_ORIGINS: str = "http://localhost:3000,https://rudrastay.com"

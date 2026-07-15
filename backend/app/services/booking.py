@@ -5,6 +5,7 @@ from app.models.booking import Booking
 from app.repositories.booking import BookingRepository
 from app.repositories.room import RoomRepository
 from app.schemas.booking import BookingCreate, BookingStatusUpdate
+from app.services.email import EmailService
 
 
 class BookingService:
@@ -52,11 +53,38 @@ class BookingService:
             special_requests=data.special_requests,
             status="pending",
         )
-        return await self.repo.create(booking)
+        created_booking = await self.repo.create(booking)
+        
+        # Send admin notification (fire and forget)
+        booking_details = data.model_dump()
+        booking_details['check_in'] = str(booking_details['check_in'])
+        booking_details['check_out'] = str(booking_details['check_out'])
+        EmailService.send_admin_new_booking(booking_details)
+        
+        return created_booking
 
     async def update_status(self, id: str, data: BookingStatusUpdate) -> Booking:
         booking = await self.get_by_id(id)
         update_data = {"status": data.status}
         if data.status == "cancelled" and data.rejection_reason is not None:
             update_data["rejection_reason"] = data.rejection_reason
-        return await self.repo.update(booking, update_data)
+            
+        updated_booking = await self.repo.update(booking, update_data)
+        
+        # Prepare details for email
+        booking_details = {
+            "guest_name": updated_booking.guest_name,
+            "guest_email": updated_booking.guest_email,
+            "item_name": updated_booking.item_name,
+            "check_in": str(updated_booking.check_in),
+            "check_out": str(updated_booking.check_out),
+            "num_guests": updated_booking.num_guests
+        }
+        
+        if data.status == "confirmed":
+            # Just sending generic confirmation without specific room assignment since that's handled on frontend only for now
+            EmailService.send_user_booking_confirmed(booking_details)
+        elif data.status == "cancelled":
+            EmailService.send_user_booking_rejected(booking_details, data.rejection_reason)
+            
+        return updated_booking
