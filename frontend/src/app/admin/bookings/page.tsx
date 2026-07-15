@@ -52,6 +52,7 @@ export default function AdminBookingsPage() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['admin-bookings'] });
       queryClient.invalidateQueries({ queryKey: ['admin-bookings-stats'] });
+      queryClient.invalidateQueries({ queryKey: ['admin-bookings-confirmed'] });
     }
   });
 
