@@ -69,13 +69,29 @@ export default function RoomDetailPage({ params }: { params: Promise<{ slug: str
             
             {/* Main Content */}
             <div className="lg:col-span-2 space-y-12">
-              <AnimatedSection direction="up">
+              
+              <AnimatedSection direction="up" delay={0.05}>
                 <h2 className="font-display text-2xl font-bold text-warm-brown mb-4">
                   Overview
                 </h2>
-                <p className="text-brown-light leading-relaxed text-lg">
+                <p className="text-brown-light leading-relaxed text-lg mb-8">
                   {room.description}
                 </p>
+
+                {/* Photo Gallery */}
+                {room.images && room.images.length > 0 && (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8">
+                    {room.images.slice(0, 2).map((img, idx) => (
+                      <div key={idx} className="relative h-48 sm:h-64 overflow-hidden rounded-xl shadow-sm border border-gold-light/20">
+                        <img 
+                          src={img} 
+                          alt={`${room.name} view ${idx + 1}`} 
+                          className="w-full h-full object-cover hover:scale-110 transition-transform duration-700"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                )}
               </AnimatedSection>
 
               <AnimatedSection direction="up" delay={0.1}>
