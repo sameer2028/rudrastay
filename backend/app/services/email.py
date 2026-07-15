@@ -8,7 +8,9 @@ logger = logging.getLogger(__name__)
 class EmailService:
     @staticmethod
     def _send_email(to: str, subject: str, html_content: str):
+        print(f"--- ATTEMPTING TO SEND EMAIL TO {to} ---")
         if not settings.SMTP_USERNAME or not settings.SMTP_PASSWORD:
+            print(f"WARNING: SMTP credentials not set. Would have sent email to {to}: {subject}")
             logger.warning(f"SMTP credentials not set. Would have sent email to {to}: {subject}")
             return None
             
@@ -25,9 +27,11 @@ class EmailService:
                 server.login(settings.SMTP_USERNAME, settings.SMTP_PASSWORD)
                 server.send_message(msg)
                 
+            print(f"SUCCESS: Email sent successfully to {to}.")
             logger.info(f"Email sent successfully to {to}.")
             return True
         except Exception as e:
+            print(f"ERROR: Failed to send email to {to}. Error: {str(e)}")
             logger.error(f"Failed to send email to {to}. Error: {str(e)}")
             return None
 
