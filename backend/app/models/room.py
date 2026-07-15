@@ -21,6 +21,13 @@ class Room(Base):
     price_per_night: Mapped[Decimal] = mapped_column(
         Numeric(10, 2), nullable=False, default=0
     )
+    original_price: Mapped[Decimal] = mapped_column(
+        Numeric(10, 2), nullable=True
+    )
+    discount_percentage: Mapped[int] = mapped_column(Integer, default=0)
+    extra_guest_price: Mapped[Decimal] = mapped_column(
+        Numeric(10, 2), nullable=False, default=500
+    )
     amenities: Mapped[list] = mapped_column(JSON, default=list)
     images: Mapped[list] = mapped_column(JSON, default=list)
     videos: Mapped[list] = mapped_column(JSON, default=list)

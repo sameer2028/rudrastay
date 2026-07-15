@@ -58,7 +58,12 @@ export default function RoomsPage() {
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-charcoal/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-                      <div className="absolute top-4 right-4 px-4 py-2 bg-white/95 backdrop-blur-sm rounded-full shadow-md">
+                      <div className="absolute top-4 right-4 px-4 py-2 bg-white/95 backdrop-blur-sm rounded-full shadow-md flex items-center">
+                        {room.original_price && room.original_price > room.price_per_night && (
+                          <span className="text-xs text-brown-muted line-through mr-1.5 font-medium">
+                            {formatPrice(room.original_price)}
+                          </span>
+                        )}
                         <span className="font-price text-lg font-bold text-warm-brown">
                           {formatPrice(room.price_per_night)}
                         </span>

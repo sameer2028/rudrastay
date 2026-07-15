@@ -9,10 +9,13 @@ interface BookingFormProps {
   itemId: string;
   itemName: string;
   price: number;
+  originalPrice?: number;
   itemType: "room" | "package" | "budget_trip";
+  capacity?: number;
+  extraGuestPrice?: number;
 }
 
-export default function BookingForm({ itemId, itemName, price, itemType }: BookingFormProps) {
+export default function BookingForm({ itemId, itemName, price, originalPrice, itemType, capacity, extraGuestPrice }: BookingFormProps) {
   const [formData, setFormData] = useState({
     guest_name: "",
     guest_email: "",
@@ -41,7 +44,16 @@ export default function BookingForm({ itemId, itemName, price, itemType }: Booki
       const start = new Date(formData.check_in);
       const end = new Date(formData.check_out);
       const nights = Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24));
-      return nights > 0 ? nights * price : 0;
+      if (nights <= 0) return 0;
+      
+      let baseTotal = nights * price;
+      
+      if (capacity && extraGuestPrice && formData.num_guests && formData.num_guests > capacity) {
+        const extraGuests = formData.num_guests - capacity;
+        baseTotal += (extraGuests * extraGuestPrice * nights);
+      }
+      
+      return baseTotal;
     } else {
       // For packages and budget trips, price is per guest
       return (formData.num_guests || 0) * price;
@@ -121,6 +133,11 @@ export default function BookingForm({ itemId, itemName, price, itemType }: Booki
       <div className="mb-6 pb-6 border-b border-gold-light/30">
         <span className="text-sm text-brown-light">Starting from</span>
         <div className="flex items-baseline gap-1 mt-1">
+          {originalPrice && originalPrice > price && (
+            <span className="text-sm text-brown-muted line-through mr-1 font-medium">
+              {formatPrice(originalPrice)}
+            </span>
+          )}
           <span className="font-price text-3xl font-bold text-warm-brown">
             {formatPrice(price)}
           </span>

@@ -2,25 +2,30 @@
 
 import { motion } from "framer-motion";
 import {
-  Wifi, Snowflake, Car, UtensilsCrossed, Waves, Dumbbell,
-  Tv, Flame, Mountain, DoorOpen, Sparkles, ConciergeBell,
+  Tv, Wifi, BedDouble, Bed, Bath, ChefHat, 
+  UtensilsCrossed, Utensils, Mountain, Trees, Car, 
+  Sofa, Droplet, GlassWater, Flame, FlameKindling
 } from "lucide-react";
 import SectionHeading from "@/components/shared/SectionHeading";
 import AnimatedSection from "@/components/shared/AnimatedSection";
 
 const AMENITIES = [
-  { icon: Wifi, label: "High-Speed Wi-Fi" },
-  { icon: Snowflake, label: "Air Conditioning" },
-  { icon: Car, label: "Free Parking" },
-  { icon: UtensilsCrossed, label: "Restaurant" },
-  { icon: Sparkles, label: "Spa & Wellness" },
-  { icon: Waves, label: "Swimming Pool" },
-  { icon: Dumbbell, label: "Fitness Center" },
-  { icon: ConciergeBell, label: "24/7 Room Service" },
-  { icon: Tv, label: "Smart TV" },
+  { icon: Tv, label: "T.V." },
+  { icon: Wifi, label: "Wi-Fi" },
+  { icon: BedDouble, label: "2 Bedrooms" },
+  { icon: Bed, label: "3 Beds" },
+  { icon: Bath, label: "2 Attached Washrooms" },
+  { icon: ChefHat, label: "Kitchen" },
+  { icon: UtensilsCrossed, label: "Cutlery" },
+  { icon: Utensils, label: "Cooking Utensils" },
+  { icon: Mountain, label: "Mountain View" },
+  { icon: Trees, label: "Valley View" },
+  { icon: Car, label: "Free Roof/Open Parking" },
+  { icon: Sofa, label: "9 Seater Sofa" },
+  { icon: Droplet, label: "24/7 Water" },
+  { icon: GlassWater, label: "Reverse Osmosis System" },
   { icon: Flame, label: "Hot Water" },
-  { icon: Mountain, label: "Mountain Views" },
-  { icon: DoorOpen, label: "Private Balcony" },
+  { icon: FlameKindling, label: "Chargeable Gas Services" },
 ];
 
 export default function AmenitiesSection() {

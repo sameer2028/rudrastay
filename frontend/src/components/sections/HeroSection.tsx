@@ -65,12 +65,12 @@ export default function HeroSection() {
           >
             Explore Our Rooms
           </Link>
-          <Link
+          {/* <Link
             href="/packages"
             className="w-full sm:w-auto px-6 py-3 sm:px-10 sm:py-4 bg-white/10 backdrop-blur-sm text-white text-xs sm:text-sm font-semibold uppercase tracking-wider rounded border border-white/20 hover:bg-white/20 transition-all duration-300"
           >
             View Packages
-          </Link>
+          </Link> */}
         </motion.div>
 
         {/* Trust Indicators */}

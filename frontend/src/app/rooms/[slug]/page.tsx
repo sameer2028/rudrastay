@@ -113,6 +113,9 @@ export default function RoomDetailPage({ params }: { params: Promise<{ slug: str
                   itemId={room.id}
                   itemName={room.name}
                   price={room.price_per_night}
+                  originalPrice={room.original_price}
+                  capacity={room.capacity}
+                  extraGuestPrice={room.extra_guest_price}
                   itemType="room"
                 />
               </AnimatedSection>

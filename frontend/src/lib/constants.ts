@@ -7,9 +7,9 @@ export const SITE_CONFIG = {
   email: "info@rudrastays.in",
   phone: "+91 84455 49059",
   whatsapp: "+918445549059",
-  address: "Near Badrinath Highway, Dehradun, India",
+  address: "Second Floor, Khasra No. 25, Bhandar Gaon, Post Office Bhangwantpur, Dehradun – 248009, Police Station Kothal Gate, Uttarakhand.",
   mapEmbedUrl:
-    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3442.5!2d79.5!3d30.4!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzDCsDI0JzAwLjAiTiA3OcKwMzAnMDAuMCJF!5e0!3m2!1sen!2sin!4v1",
+    "https://maps.google.com/maps?q=Khasra+No.+25,+Bhandar+Gaon,+Bhangwantpur,+Dehradun,+Uttarakhand+248009&t=&z=14&ie=UTF8&iwloc=&output=embed",
   social: {
     instagram: "https://instagram.com/rudrastay",
     facebook: "https://facebook.com/rudrastay",
@@ -22,8 +22,8 @@ export const NAV_LINKS = [
   { label: "About", href: "/about" },
   { label: "Rooms", href: "/rooms" },
   { label: "Gallery", href: "/gallery" },
-  { label: "Packages", href: "/packages" },
-  { label: "Budget Trips", href: "/budget-trips" },
+  // { label: "Packages", href: "/packages" },
+  // { label: "Budget Trips", href: "/budget-trips" },
   { label: "Reviews", href: "/reviews" },
   { label: "Contact", href: "/contact" },
 ];

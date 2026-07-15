@@ -14,7 +14,7 @@ export default function HomePage() {
       <FeaturedRooms />
       <AboutPreview />
       <AmenitiesSection />
-      <PackagesPreview />
+      {/* <PackagesPreview /> */}
       <GalleryPreview />
       <ReviewsSection />
       <CTASection />

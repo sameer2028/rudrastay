@@ -8,6 +8,9 @@ export interface Room {
   description: string;
   capacity: number;
   price_per_night: number;
+  original_price?: number;
+  discount_percentage: number;
+  extra_guest_price: number;
   amenities: string[];
   images: string[];
   videos: string[];

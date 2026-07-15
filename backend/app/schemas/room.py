@@ -8,6 +8,9 @@ class RoomBase(BaseModel):
     description: str = Field(..., min_length=10)
     capacity: int = Field(..., ge=1, le=20)
     price_per_night: Decimal = Field(..., ge=0)
+    original_price: Optional[Decimal] = Field(None, ge=0)
+    discount_percentage: int = Field(0, ge=0, le=100)
+    extra_guest_price: Decimal = Field(500, ge=0)
     amenities: List[str] = []
     images: List[str] = []
     videos: List[str] = []
@@ -25,6 +28,9 @@ class RoomUpdate(BaseModel):
     description: Optional[str] = Field(None, min_length=10)
     capacity: Optional[int] = Field(None, ge=1, le=20)
     price_per_night: Optional[Decimal] = Field(None, ge=0)
+    original_price: Optional[Decimal] = Field(None, ge=0)
+    discount_percentage: Optional[int] = Field(None, ge=0, le=100)
+    extra_guest_price: Optional[Decimal] = Field(None, ge=0)
     amenities: Optional[List[str]] = None
     images: Optional[List[str]] = None
     videos: Optional[List[str]] = None
@@ -40,6 +46,9 @@ class RoomResponse(BaseModel):
     description: str
     capacity: int
     price_per_night: Decimal
+    original_price: Optional[Decimal]
+    discount_percentage: int
+    extra_guest_price: Decimal
     amenities: List[str]
     images: List[str]
     videos: List[str]

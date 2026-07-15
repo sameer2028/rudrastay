@@ -5,6 +5,14 @@ import { X, Loader2, Plus, Trash2, UploadCloud } from "lucide-react";
 import { useCreateRoom, useUpdateRoom, Room } from "@/hooks/useRooms";
 import { useUpload } from "@/hooks/useUpload";
 
+const PREDEFINED_AMENITIES = [
+  "T.V.", "Wi-Fi", "2 Bedrooms", "3 Beds", "2 Attached Washrooms", 
+  "Kitchen", "Cutlery", "Cooking Utensils", "Mountain View", 
+  "Valley View", "Free Roof/Open Parking", "9 Seater Sofa", 
+  "24/7 Water", "Reverse Osmosis System", "Hot Water", 
+  "Chargeable Gas Services"
+];
+
 interface RoomFormModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -16,7 +24,10 @@ export default function RoomFormModal({ isOpen, onClose, initialData }: RoomForm
     name: "",
     description: "",
     capacity: 2,
+    original_price: 0,
+    discount_percentage: 0,
     price_per_night: 0,
+    extra_guest_price: 500,
     is_available: true,
     is_featured: false,
     amenities: [""],
@@ -49,7 +60,10 @@ export default function RoomFormModal({ isOpen, onClose, initialData }: RoomForm
         name: initialData.name,
         description: initialData.description,
         capacity: initialData.capacity,
+        original_price: initialData.original_price || 0,
+        discount_percentage: initialData.discount_percentage || 0,
         price_per_night: initialData.price_per_night,
+        extra_guest_price: initialData.extra_guest_price || 500,
         is_available: initialData.is_available,
         is_featured: initialData.is_featured,
         amenities: initialData.amenities?.length ? initialData.amenities : [""],
@@ -63,7 +77,10 @@ export default function RoomFormModal({ isOpen, onClose, initialData }: RoomForm
         name: "",
         description: "",
         capacity: 2,
+        original_price: 0,
+        discount_percentage: 0,
         price_per_night: 0,
+        extra_guest_price: 500,
         is_available: true,
         is_featured: false,
         amenities: [""],
@@ -83,7 +100,19 @@ export default function RoomFormModal({ isOpen, onClose, initialData }: RoomForm
       const checked = (e.target as HTMLInputElement).checked;
       setFormData(prev => ({ ...prev, [name]: checked }));
     } else if (type === 'number') {
-      setFormData(prev => ({ ...prev, [name]: value === '' ? '' : Number(value) }));
+      const numValue = value === '' ? '' : Number(value);
+      setFormData(prev => {
+        const next = { ...prev, [name]: numValue };
+        
+        // Auto-calculate final price_per_night when original or discount changes
+        if (name === 'original_price' || name === 'discount_percentage') {
+          const orig = name === 'original_price' ? Number(numValue) : Number(prev.original_price || 0);
+          const disc = name === 'discount_percentage' ? Number(numValue) : Number(prev.discount_percentage || 0);
+          next.price_per_night = Math.round(orig * (1 - disc / 100));
+        }
+        
+        return next as any;
+      });
     } else {
       setFormData(prev => ({ ...prev, [name]: value }));
     }
@@ -158,13 +187,64 @@ export default function RoomFormModal({ isOpen, onClose, initialData }: RoomForm
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-warm-brown uppercase tracking-wider mb-2">Price per Night (₹)</label>
+                <label className="block text-xs font-semibold text-warm-brown uppercase tracking-wider mb-2">Base Price (₹) *</label>
+                <input
+                  type="number"
+                  name="original_price"
+                  required
+                  min="0"
+                  value={formData.original_price}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2 bg-sand/30 border border-gold-light/30 rounded-lg text-sm focus:outline-none focus:border-gold transition-colors text-warm-brown"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-warm-brown uppercase tracking-wider mb-2">Discount (%)</label>
+                <input
+                  type="number"
+                  name="discount_percentage"
+                  min="0"
+                  max="100"
+                  value={formData.discount_percentage}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2 bg-sand/30 border border-gold-light/30 rounded-lg text-sm focus:outline-none focus:border-gold transition-colors text-warm-brown"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-warm-brown uppercase tracking-wider mb-2">Final Price / Night (₹)</label>
                 <input
                   type="number"
                   name="price_per_night"
                   required
-                  min="0"
+                  readOnly
                   value={formData.price_per_night}
+                  className="w-full px-4 py-2 bg-sand/50 border border-gold-light/30 rounded-lg text-sm focus:outline-none text-warm-brown/70 font-semibold cursor-not-allowed"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-warm-brown uppercase tracking-wider mb-2">Capacity (Base Guests)</label>
+                <input
+                  type="number"
+                  name="capacity"
+                  required
+                  min="1"
+                  value={formData.capacity}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2 bg-sand/30 border border-gold-light/30 rounded-lg text-sm focus:outline-none focus:border-gold transition-colors text-warm-brown"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-warm-brown uppercase tracking-wider mb-2">Extra Guest Fee (₹)</label>
+                <input
+                  type="number"
+                  name="extra_guest_price"
+                  required
+                  min="0"
+                  value={formData.extra_guest_price}
                   onChange={handleChange}
                   className="w-full px-4 py-2 bg-sand/30 border border-gold-light/30 rounded-lg text-sm focus:outline-none focus:border-gold transition-colors text-warm-brown"
                 />
@@ -305,26 +385,25 @@ export default function RoomFormModal({ isOpen, onClose, initialData }: RoomForm
 
               {/* Amenities */}
               <div>
-                <div className="flex items-center justify-between mb-2">
-                  <label className="block text-xs font-semibold text-warm-brown uppercase tracking-wider">Amenities</label>
-                  <button type="button" onClick={() => addArrayItem('amenities')} className="text-xs text-gold hover:text-gold-dark font-medium flex items-center gap-1">
-                    <Plus className="w-3 h-3" /> Add Amenity
-                  </button>
-                </div>
-                <div className="space-y-2">
-                  {formData.amenities.map((amenity, index) => (
-                    <div key={index} className="flex gap-2">
+                <label className="block text-xs font-semibold text-warm-brown uppercase tracking-wider mb-3">Amenities</label>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                  {PREDEFINED_AMENITIES.map((amenity) => (
+                    <label key={amenity} className="flex items-start gap-2 cursor-pointer p-2 rounded-lg border border-gold-light/20 bg-sand/10 hover:bg-gold/5 transition-colors">
                       <input
-                        type="text"
-                        placeholder="e.g. Free Wi-Fi"
-                        value={amenity}
-                        onChange={(e) => handleArrayChange(index, 'amenities', e.target.value)}
-                        className="flex-1 px-4 py-2 bg-sand/30 border border-gold-light/30 rounded-lg text-sm focus:outline-none focus:border-gold transition-colors text-warm-brown"
+                        type="checkbox"
+                        checked={formData.amenities.includes(amenity)}
+                        onChange={() => {
+                          setFormData(prev => ({
+                            ...prev,
+                            amenities: prev.amenities.includes(amenity)
+                              ? prev.amenities.filter(a => a !== amenity)
+                              : [...prev.amenities.filter(a => a.trim() !== ""), amenity]
+                          }))
+                        }}
+                        className="w-4 h-4 mt-0.5 text-gold rounded border-gold-light/30 focus:ring-gold shrink-0"
                       />
-                      <button type="button" onClick={() => removeArrayItem(index, 'amenities')} className="p-2 text-red-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors">
-                        <Trash2 className="w-4 h-4" />
-                      </button>
-                    </div>
+                      <span className="text-xs font-medium text-warm-brown leading-tight">{amenity}</span>
+                    </label>
                   ))}
                 </div>
               </div>
