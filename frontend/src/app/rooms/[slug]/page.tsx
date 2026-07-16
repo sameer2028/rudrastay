@@ -78,6 +78,21 @@ export default function RoomDetailPage({ params }: { params: Promise<{ slug: str
                   {room.description}
                 </p>
 
+                {/* Video Tour */}
+                {room.videos && room.videos.length > 0 && (
+                  <div className="mt-8 mb-8 relative rounded-xl overflow-hidden shadow-md border border-gold-light/20 aspect-video bg-charcoal">
+                    <video 
+                      src={room.videos[0]} 
+                      className="w-full h-full object-cover"
+                      autoPlay 
+                      loop 
+                      muted 
+                      playsInline
+                      controls
+                    />
+                  </div>
+                )}
+
                 {/* Photo Gallery */}
                 {room.images && room.images.length > 0 && (
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8">
