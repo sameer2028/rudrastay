@@ -4,16 +4,15 @@ export const SITE_CONFIG = {
   description:
     "Experience luxury in the heart of Dehradun. Premium accommodations, curated tour packages, and unforgettable mountain experiences.",
   url: "https://rudrastay.com",
-  email: "info@rudrastays.in",
+  email: "rudrastay844@gmail.com",
   phone: "+91 84455 49059",
   whatsapp: "+918445549059",
   address: "Second Floor, Khasra No. 25, Bhandar Gaon, Post Office Bhangwantpur, Dehradun – 248009, Police Station Kothal Gate, Uttarakhand.",
   mapEmbedUrl:
     "https://maps.google.com/maps?q=Khasra+No.+25,+Bhandar+Gaon,+Bhangwantpur,+Dehradun,+Uttarakhand+248009&t=&z=14&ie=UTF8&iwloc=&output=embed",
   social: {
-    instagram: "https://instagram.com/rudrastay",
-    facebook: "https://facebook.com/rudrastay",
-    twitter: "https://twitter.com/rudrastay",
+    instagram: "https://www.instagram.com/rudrastay.in",
+    facebook: "https://www.facebook.com/rudrastay.in",
   },
 };
 

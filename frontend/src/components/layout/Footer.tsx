@@ -63,7 +63,6 @@ export default function Footer() {
               {[
                 { icon: Instagram, href: SITE_CONFIG.social.instagram },
                 { icon: Facebook, href: SITE_CONFIG.social.facebook },
-                { icon: Twitter, href: SITE_CONFIG.social.twitter },
               ].map(({ icon: Icon, href }, i) => (
                 <a
                   key={i}
