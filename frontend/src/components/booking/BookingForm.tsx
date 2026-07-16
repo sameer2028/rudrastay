@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { formatPrice } from "@/lib/utils";
+import { SITE_CONFIG } from "@/lib/constants";
 import { useCreateBooking, BookingCreate } from "@/hooks/useBookings";
 import { Loader2, ArrowRight, CheckCircle, Calendar, Users, User, Mail, Phone, MessageSquare } from "lucide-react";
 
@@ -103,6 +104,13 @@ export default function BookingForm({ itemId, itemName, price, originalPrice, it
     else if (itemType === "budget_trip") payload.budget_trip_id = itemId;
 
     submitBooking(payload, {
+      onSuccess: () => {
+        const text = `*New Booking Request!*\n\n*Name:* ${formData.guest_name}\n*Item:* ${itemName}\n*Check-in:* ${formData.check_in}\n*Check-out:* ${formData.check_out}\n*Guests:* ${formData.num_guests}\n*Phone:* ${formData.guest_phone}\n*Email:* ${formData.guest_email}\n*Special Requests:* ${formData.special_requests || "None"}`;
+        const encodedText = encodeURIComponent(text);
+        const phone = SITE_CONFIG.whatsapp.replace(/\D/g, "");
+        const whatsappUrl = `https://wa.me/${phone}?text=${encodedText}`;
+        window.location.href = whatsappUrl;
+      },
       onError: (err: any) => {
         setFormError(err.response?.data?.message || "Failed to submit booking request. Please try again.");
       }
@@ -113,18 +121,12 @@ export default function BookingForm({ itemId, itemName, price, originalPrice, it
     return (
       <div className="bg-cream rounded-xl p-8 shadow-lg border border-gold-light/30 text-center">
         <div className="w-16 h-16 bg-success/10 rounded-full flex items-center justify-center mx-auto mb-6">
-          <CheckCircle className="w-8 h-8 text-success" />
+          <Loader2 className="w-8 h-8 text-success animate-spin" />
         </div>
         <h3 className="font-display text-2xl font-bold text-warm-brown mb-2">Request Sent!</h3>
         <p className="text-sm text-brown-light mb-6">
-          Thank you for choosing Rudra Stay. Your booking request for the <span className="font-semibold text-warm-brown">{itemName}</span> has been sent to our team. We will review your dates and get back to you shortly to confirm your reservation.
+          Thank you for choosing Rudra Stay. Redirecting you to WhatsApp to complete your booking...
         </p>
-        <button
-          onClick={() => window.location.reload()}
-          className="btn-secondary text-sm"
-        >
-          Submit Another Request
-        </button>
       </div>
     );
   }

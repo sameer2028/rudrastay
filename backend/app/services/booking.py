@@ -55,14 +55,16 @@ class BookingService:
         )
         created_booking = await self.repo.create(booking)
         
-        # Send admin notification (fire and forget)
+        # Send admin notification and user acknowledgement (fire and forget)
         booking_details = data.model_dump()
         booking_details['check_in'] = str(booking_details['check_in'])
         booking_details['check_out'] = str(booking_details['check_out'])
         if background_tasks:
             background_tasks.add_task(EmailService.send_admin_new_booking, booking_details)
+            background_tasks.add_task(EmailService.send_user_booking_submitted, booking_details)
         else:
             EmailService.send_admin_new_booking(booking_details)
+            EmailService.send_user_booking_submitted(booking_details)
         
         return created_booking
 
