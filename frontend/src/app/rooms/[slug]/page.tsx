@@ -78,33 +78,35 @@ export default function RoomDetailPage({ params }: { params: Promise<{ slug: str
                   {room.description}
                 </p>
 
-                {/* Video Tour */}
-                {room.videos && room.videos.length > 0 && (
-                  <div className="mt-8 mb-8 relative rounded-xl overflow-hidden shadow-md border border-gold-light/20 aspect-video bg-charcoal">
-                    <video 
-                      src={room.videos[0]} 
-                      className="w-full h-full object-cover"
-                      autoPlay 
-                      loop 
-                      muted 
-                      playsInline
-                      controls
-                    />
-                  </div>
-                )}
-
-                {/* Photo Gallery */}
-                {room.images && room.images.length > 0 && (
+                {/* Media Gallery */}
+                {(room.images?.length > 0 || room.videos?.length > 0) && (
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8">
-                    {room.images.slice(0, 4).map((img, idx) => (
-                      <div key={idx} className="relative h-48 sm:h-64 overflow-hidden rounded-xl shadow-sm border border-gold-light/20">
-                        <img 
-                          src={img} 
-                          alt={`${room.name} view ${idx + 1}`} 
-                          className="w-full h-full object-cover hover:scale-110 transition-transform duration-700"
+                    {/* Video Tour */}
+                    {room.videos && room.videos.length > 0 && (
+                      <div className="relative h-48 sm:h-64 overflow-hidden rounded-xl shadow-sm border border-gold-light/20 bg-charcoal">
+                        <video 
+                          src={room.videos[0]} 
+                          className="w-full h-full object-contain"
+                          autoPlay 
+                          muted 
+                          playsInline
+                          controls
                         />
                       </div>
-                    ))}
+                    )}
+
+                    {/* Photo Gallery */}
+                    {room.images && room.images.length > 0 && (
+                      room.images.slice(0, room.videos?.length > 0 ? 3 : 4).map((img, idx) => (
+                        <div key={idx} className="relative h-48 sm:h-64 overflow-hidden rounded-xl shadow-sm border border-gold-light/20">
+                          <img 
+                            src={img} 
+                            alt={`${room.name} view ${idx + 1}`} 
+                            className="w-full h-full object-cover hover:scale-110 transition-transform duration-700"
+                          />
+                        </div>
+                      ))
+                    )}
                   </div>
                 )}
               </AnimatedSection>
