@@ -81,7 +81,7 @@ export default function RoomDetailPage({ params }: { params: Promise<{ slug: str
                 {/* Photo Gallery */}
                 {room.images && room.images.length > 0 && (
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8">
-                    {room.images.slice(0, 2).map((img, idx) => (
+                    {room.images.slice(0, 4).map((img, idx) => (
                       <div key={idx} className="relative h-48 sm:h-64 overflow-hidden rounded-xl shadow-sm border border-gold-light/20">
                         <img 
                           src={img} 
