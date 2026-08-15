@@ -36,11 +36,13 @@ class Settings(BaseSettings):
     ADMIN_NOTIFICATION_EMAIL: str = "rudrastayadmin@gmail.com"
 
     # CORS
-    CORS_ORIGINS: str = "http://localhost:3000,https://rudrastays.in"
+    CORS_ORIGINS: str = (
+        "http://localhost:3000,http://localhost:3001,https://rudrastays.in,https://www.rudrastays.in,https://rudrastay.vercel.app"
+    )
 
     @property
     def cors_origins_list(self) -> List[str]:
-        return [origin.strip() for origin in self.CORS_ORIGINS.split(",")]
+        return [origin.strip().rstrip("/") for origin in self.CORS_ORIGINS.split(",") if origin.strip()]
 
     model_config = {
         "env_file": ".env",
