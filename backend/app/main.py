@@ -47,6 +47,6 @@ app.add_middleware(
 app.include_router(api_router)
 
 
-@app.get("/health")
+@app.api_route("/health", methods=["GET", "HEAD"])
 async def health_check():
     return {"status": "healthy", "service": "Rudra Stay API"}
